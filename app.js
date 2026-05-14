@@ -4,7 +4,7 @@
    ============================================================ */
 
 const FEE_RATE = 0.05; // 5% house hold
-const STORE_KEY = "fightbetz.v1";
+const STORE_KEY = "fightbetz.v2";
 
 /* ---------- seed data ---------- */
 const EVENTS = [
@@ -24,37 +24,49 @@ const EVENTS = [
     ],
   },
   {
-    id: "pfl-world-9",
-    org: "Professional Fighters League",
-    name: "PFL World Tournament 9",
-    venue: "Etihad Arena, Abu Dhabi",
-    date: "Fri 13 Jun 2026 · 9:00 PM GST",
+    id: "patong-stadium-fri",
+    org: "Patong Boxing Stadium",
+    name: "Patong Fight Night",
+    venue: "Patong Boxing Stadium, Phuket — Thailand",
+    date: "Fri 6 Jun 2026 · 9:00 PM ICT",
     fights: [
-      { id: "f1", a: "Marcus Cole", b: "Dimitri Volkov", weight: "Heavyweight SF", oddsA: 1.65, oddsB: 2.3 },
-      { id: "f2", a: "Aisha Bello", b: "Lena Kruger", weight: "Lightweight SF", oddsA: 2.0, oddsB: 1.85 },
+      { id: "f1", a: "Sangtiennoi Sor Rungroj", b: "Petch Bangla", weight: "Muay Thai 70kg", oddsA: 1.75, oddsB: 2.15 },
+      { id: "f2", a: "Yodwicha Kawila", b: "Liam \"Pommie\" Carter", weight: "Muay Thai 65kg", oddsA: 1.6, oddsB: 2.4 },
+      { id: "f3", a: "Nong Beer", b: "Kaito Yamada", weight: "Muay Thai 60kg", oddsA: 2.0, oddsB: 1.85 },
     ],
   },
   {
-    id: "ufc-312",
-    org: "Ultimate Fighting Championship",
-    name: "UFC 312",
-    venue: "T-Mobile Arena, Las Vegas",
-    date: "Sat 28 Jun 2026 · 10:00 PM ET",
+    id: "bangla-throwdown",
+    org: "Bangla Road Promotions",
+    name: "Bangla Road Throwdown",
+    venue: "Suwit Stadium, Patong — Phuket",
+    date: "Sat 21 Jun 2026 · 8:30 PM ICT",
     fights: [
-      { id: "f1", a: "Tyrone Banks", b: "Carlos Mendez", weight: "Middleweight Title", oddsA: 1.55, oddsB: 2.6 },
-      { id: "f2", a: "Sasha Ivanova", b: "Mei Tanaka", weight: "Flyweight", oddsA: 2.1, oddsB: 1.78 },
-      { id: "f3", a: "Diego \"Hammer\" Ruiz", b: "Aaron Wells", weight: "Bantamweight", oddsA: 1.9, oddsB: 1.95 },
+      { id: "f1", a: "Phet Patong", b: "Diego \"Hammer\" Ruiz", weight: "Muay Thai Title 67kg", oddsA: 1.9, oddsB: 1.95 },
+      { id: "f2", a: "Mai \"Lightning\" Chai", b: "Anya Volkova", weight: "Women's Muay Thai 55kg", oddsA: 1.7, oddsB: 2.2 },
     ],
   },
   {
-    id: "one-178",
-    org: "ONE Championship",
-    name: "ONE 178: Bangkok",
-    venue: "Impact Arena, Bangkok",
-    date: "Sat 5 Jul 2026 · 8:00 PM ICT",
+    id: "urcc-manila",
+    org: "Universal Reality Combat Championship",
+    name: "URCC: Manila Mayhem",
+    venue: "Mall of Asia Arena, Manila — Philippines",
+    date: "Sat 28 Jun 2026 · 7:00 PM PHT",
     fights: [
-      { id: "f1", a: "Somchai Petch", b: "Nong Ek", weight: "Muay Thai Title", oddsA: 1.72, oddsB: 2.18 },
-      { id: "f2", a: "Rafael Costa", b: "Kim Min-Jae", weight: "Lightweight", oddsA: 2.05, oddsB: 1.82 },
+      { id: "f1", a: "Rolando \"Bakal\" Dy", b: "Marco Santos", weight: "Lightweight Title", oddsA: 1.65, oddsB: 2.3 },
+      { id: "f2", a: "Jenelyn Olsim", b: "Trish Mendoza", weight: "Women's Atomweight", oddsA: 1.85, oddsB: 2.05 },
+      { id: "f3", a: "Carlo \"Bigboy\" Pedregosa", b: "Kevin Lim", weight: "Featherweight", oddsA: 2.1, oddsB: 1.78 },
+    ],
+  },
+  {
+    id: "pinoy-pride-cebu",
+    org: "Pinoy Pride Boxing",
+    name: "Pinoy Pride: Cebu Slugfest",
+    venue: "Hoops Dome, Lapu-Lapu City — Cebu",
+    date: "Sun 12 Jul 2026 · 4:00 PM PHT",
+    fights: [
+      { id: "f1", a: "Mark \"Magnifico\" Reyes", b: "Joey Canada", weight: "Super Flyweight Title", oddsA: 1.55, oddsB: 2.55 },
+      { id: "f2", a: "Aljun Bacalso", b: "Tatsuya Mori", weight: "Bantamweight", oddsA: 1.95, oddsB: 1.9 },
     ],
   },
 ];
@@ -79,9 +91,9 @@ const defaultState = {
     },
     {
       id: "w-seed-3",
-      eventId: "ufc-312", eventName: "UFC 312",
-      fight: "Tyrone Banks vs Carlos Mendez",
-      side: "Carlos Mendez",
+      eventId: "urcc-manila", eventName: "URCC: Manila Mayhem",
+      fight: "Rolando \"Bakal\" Dy vs Marco Santos",
+      side: "Marco Santos",
       stake: 80, creator: "Mike", status: "matched", matchedBy: "You",
     },
   ],

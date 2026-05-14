@@ -533,6 +533,238 @@ a { color: inherit; text-decoration: none; }
 .toast[hidden] { display: none; }
 @keyframes pop { from { transform: translate(-50%, 14px); opacity: 0; } }
 
+/* ===== COUNT CHIP ===== */
+.count-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  vertical-align: 4px;
+}
+
+/* ===== SHOWCASE / NFT FIGHTER CARD ===== */
+.showcase-wrap {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.showcase-copy { flex: 1; min-width: 280px; }
+.showcase-copy h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 30px;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+.showcase-list { list-style: none; margin-bottom: 22px; }
+.showcase-list li {
+  position: relative;
+  padding: 10px 0 10px 28px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+}
+.showcase-list li::before {
+  content: "🥊";
+  position: absolute;
+  left: 0;
+}
+.showcase-list b { color: var(--ink); }
+
+.nft-card {
+  position: relative;
+  width: 340px;
+  flex: 0 0 340px;
+  padding: 18px;
+  border-radius: 22px;
+  background:
+    linear-gradient(160deg, #241a3d 0%, #15182e 55%, #1d1330 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  box-shadow: var(--shadow), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  overflow: hidden;
+  isolation: isolate;
+}
+.nft-foil {
+  position: absolute;
+  inset: -2px;
+  z-index: -2;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--gold), var(--accent), var(--purple), var(--accent-2), var(--gold));
+  background-size: 300% 300%;
+  animation: foilShift 6s linear infinite;
+}
+@keyframes foilShift { to { background-position: 300% 300%; } }
+.nft-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.22) 45%, transparent 60%);
+  background-size: 250% 250%;
+  background-position: 150% 150%;
+  transition: background-position 0.5s ease;
+}
+.nft-card:hover .nft-shine { background-position: -50% -50%; }
+.nft-card:hover { transform: translateY(-6px) rotate(-1deg); }
+.nft-card { transition: transform 0.25s ease; }
+
+.nft-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--gold);
+}
+.nft-serial { color: var(--muted); }
+.nft-portrait {
+  position: relative;
+  height: 150px;
+  margin: 12px 0;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 210, 63, 0.35), transparent 70%),
+    linear-gradient(160deg, var(--accent), var(--purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nft-initials {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 78px;
+  color: #fff;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+.nft-rarity {
+  position: absolute;
+  bottom: 8px; left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 10, 18, 0.78);
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 3px 12px;
+  border-radius: 999px;
+}
+.nft-name {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.5px;
+}
+.nft-tagline { color: var(--accent-2); font-size: 12px; font-weight: 600; margin-bottom: 12px; }
+.nft-record {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+}
+.nft-record div { display: flex; flex-direction: column; align-items: center; }
+.nft-record strong { font-family: "Bebas Neue", sans-serif; font-size: 24px; color: var(--gold); }
+.nft-record span { font-size: 9px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+.nft-stats { display: flex; flex-direction: column; gap: 7px; margin-bottom: 12px; }
+.nft-stat {
+  display: grid;
+  grid-template-columns: 64px 1fr 26px;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.nft-stat b { color: var(--ink); text-align: right; font-size: 12px; }
+.nft-stat .bar {
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.nft-stat .bar i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent-2), var(--gold));
+}
+.nft-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.nft-overall { font-size: 11px; }
+.nft-overall b {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 22px;
+  color: var(--gold);
+  margin-left: 4px;
+}
+
+/* ===== COLLECTION CARDS ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 16px;
+}
+.fcard {
+  position: relative;
+  background: linear-gradient(160deg, var(--card-2), var(--card));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  overflow: hidden;
+}
+.fcard.tradeable { border-color: var(--accent-2); }
+.fcard.inplay { border-color: var(--gold); }
+.fcard-art {
+  height: 110px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 56px;
+  color: #fff;
+  background: linear-gradient(160deg, var(--accent), var(--purple));
+  margin-bottom: 10px;
+}
+.fcard-badge {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.fcard-badge.inplay { background: rgba(255, 210, 63, 0.18); color: var(--gold); }
+.fcard-badge.tradeable { background: rgba(0, 240, 192, 0.18); color: var(--accent-2); }
+.fcard-name { font-family: "Bebas Neue", sans-serif; font-size: 20px; letter-spacing: 0.5px; }
+.fcard-event { color: var(--muted); font-size: 11px; margin-bottom: 10px; }
+.fcard-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+.fcard-price { font-family: "Bebas Neue", sans-serif; font-size: 22px; color: var(--gold); }
+.fcard-locked { font-size: 10px; color: var(--muted); text-align: right; }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 920px) {
   .hero-inner { flex-direction: column-reverse; align-items: stretch; }
@@ -549,4 +781,6 @@ a { color: inherit; text-decoration: none; }
   .wc-right { text-align: left; align-items: flex-start; }
   .wallet-chip { padding: 6px; }
   .wallet-bal { display: none; }
+  .nft-card { width: 100%; flex-basis: 100%; }
+  .showcase-wrap { gap: 24px; }
 }

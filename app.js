@@ -1,12 +1,16 @@
 /* ============================================================
-   FIGHT BETZ — peer-to-peer fight gambling (demo build)
+   FIGHT BETZ — peer-to-peer fighter card battles (demo build)
+   No cash gambling: you BUY a fighter's NFT card. If your fighter
+   wins their bout, you also WIN the opponent's card. Cards can be
+   sold back to Fight Betz for the price they were bought at.
+   The platform takes a 5% hold to escrow cards and settle results.
    State persists in localStorage. No real money is processed.
    ============================================================ */
 
-const FEE_RATE = 0.05; // 5% house hold
-const STORE_KEY = "fightbetz.v2";
+const FEE_RATE = 0.05; // 5% platform hold
+const STORE_KEY = "fightbetz.v3";
 
-/* ---------- seed data ---------- */
+/* ---------- seed data: events, fights, card prices ---------- */
 const EVENTS = [
   {
     id: "ifl-rise-up",
@@ -17,10 +21,10 @@ const EVENTS = [
     featured: true,
     poster: "rise-up-event.png",
     fights: [
-      { id: "f1", a: "Komang \"Bull\" Surya", b: "Rizky Pratama", weight: "Lightweight Title", oddsA: 1.8, oddsB: 2.1 },
-      { id: "f2", a: "Wayan Adi", b: "Joao \"Tsunami\" Silva", weight: "Welterweight", oddsA: 2.4, oddsB: 1.6 },
-      { id: "f3", a: "Ketut Mahendra", b: "Bagus Nugraha", weight: "Featherweight", oddsA: 1.95, oddsB: 1.95 },
-      { id: "f4", a: "Putri \"Storm\" Lestari", b: "Dewi Anjani", weight: "Women's Strawweight", oddsA: 1.7, oddsB: 2.25 },
+      { id: "f1", a: "Komang \"Bull\" Surya", b: "Rizky Pratama", weight: "Lightweight Title", cardA: 60, cardB: 45 },
+      { id: "f2", a: "Wayan Adi", b: "Joao \"Tsunami\" Silva", weight: "Welterweight", cardA: 40, cardB: 70 },
+      { id: "f3", a: "Ketut Mahendra", b: "Bagus Nugraha", weight: "Featherweight", cardA: 50, cardB: 50 },
+      { id: "f4", a: "Putri \"Storm\" Lestari", b: "Dewi Anjani", weight: "Women's Strawweight", cardA: 65, cardB: 40 },
     ],
   },
   {
@@ -30,9 +34,9 @@ const EVENTS = [
     venue: "Patong Boxing Stadium, Phuket — Thailand",
     date: "Fri 6 Jun 2026 · 9:00 PM ICT",
     fights: [
-      { id: "f1", a: "Sangtiennoi Sor Rungroj", b: "Petch Bangla", weight: "Muay Thai 70kg", oddsA: 1.75, oddsB: 2.15 },
-      { id: "f2", a: "Yodwicha Kawila", b: "Liam \"Pommie\" Carter", weight: "Muay Thai 65kg", oddsA: 1.6, oddsB: 2.4 },
-      { id: "f3", a: "Nong Beer", b: "Kaito Yamada", weight: "Muay Thai 60kg", oddsA: 2.0, oddsB: 1.85 },
+      { id: "f1", a: "Sangtiennoi Sor Rungroj", b: "Petch Bangla", weight: "Muay Thai 70kg", cardA: 55, cardB: 40 },
+      { id: "f2", a: "Yodwicha Kawila", b: "Liam \"Pommie\" Carter", weight: "Muay Thai 65kg", cardA: 70, cardB: 35 },
+      { id: "f3", a: "Nong Beer", b: "Kaito Yamada", weight: "Muay Thai 60kg", cardA: 45, cardB: 55 },
     ],
   },
   {
@@ -42,8 +46,8 @@ const EVENTS = [
     venue: "Suwit Stadium, Patong — Phuket",
     date: "Sat 21 Jun 2026 · 8:30 PM ICT",
     fights: [
-      { id: "f1", a: "Phet Patong", b: "Diego \"Hammer\" Ruiz", weight: "Muay Thai Title 67kg", oddsA: 1.9, oddsB: 1.95 },
-      { id: "f2", a: "Mai \"Lightning\" Chai", b: "Anya Volkova", weight: "Women's Muay Thai 55kg", oddsA: 1.7, oddsB: 2.2 },
+      { id: "f1", a: "Phet Patong", b: "Diego \"Hammer\" Ruiz", weight: "Muay Thai Title 67kg", cardA: 50, cardB: 48 },
+      { id: "f2", a: "Mai \"Lightning\" Chai", b: "Anya Volkova", weight: "Women's Muay Thai 55kg", cardA: 60, cardB: 40 },
     ],
   },
   {
@@ -53,9 +57,9 @@ const EVENTS = [
     venue: "Mall of Asia Arena, Manila — Philippines",
     date: "Sat 28 Jun 2026 · 7:00 PM PHT",
     fights: [
-      { id: "f1", a: "Rolando \"Bakal\" Dy", b: "Marco Santos", weight: "Lightweight Title", oddsA: 1.65, oddsB: 2.3 },
-      { id: "f2", a: "Jenelyn Olsim", b: "Trish Mendoza", weight: "Women's Atomweight", oddsA: 1.85, oddsB: 2.05 },
-      { id: "f3", a: "Carlo \"Bigboy\" Pedregosa", b: "Kevin Lim", weight: "Featherweight", oddsA: 2.1, oddsB: 1.78 },
+      { id: "f1", a: "Rolando \"Bakal\" Dy", b: "Marco Santos", weight: "Lightweight Title", cardA: 70, cardB: 40 },
+      { id: "f2", a: "Jenelyn Olsim", b: "Trish Mendoza", weight: "Women's Atomweight", cardA: 52, cardB: 45 },
+      { id: "f3", a: "Carlo \"Bigboy\" Pedregosa", b: "Kevin Lim", weight: "Featherweight", cardA: 42, cardB: 58 },
     ],
   },
   {
@@ -65,36 +69,55 @@ const EVENTS = [
     venue: "Hoops Dome, Lapu-Lapu City — Cebu",
     date: "Sun 12 Jul 2026 · 4:00 PM PHT",
     fights: [
-      { id: "f1", a: "Mark \"Magnifico\" Reyes", b: "Joey Canada", weight: "Super Flyweight Title", oddsA: 1.55, oddsB: 2.55 },
-      { id: "f2", a: "Aljun Bacalso", b: "Tatsuya Mori", weight: "Bantamweight", oddsA: 1.95, oddsB: 1.9 },
+      { id: "f1", a: "Mark \"Magnifico\" Reyes", b: "Joey Canada", weight: "Super Flyweight Title", cardA: 80, cardB: 35 },
+      { id: "f2", a: "Aljun Bacalso", b: "Tatsuya Mori", weight: "Bantamweight", cardA: 48, cardB: 52 },
     ],
   },
 ];
 
-/* ---------- persisted state ---------- */
+/* ---------- persisted state ----------
+   battles: a fight matchup. One fighter card is held by `creator`,
+            the `opponent` card is open to claim. Winner takes both.
+   collection: fighter cards currently held by "You".
+*/
 const defaultState = {
   wallet: 0,
-  wagers: [
+  battles: [
     {
-      id: "w-seed-1",
+      id: "b-seed-1",
       eventId: "ifl-rise-up", eventName: "IFL: RISE UP!",
       fight: "Komang \"Bull\" Surya vs Rizky Pratama",
-      side: "Komang \"Bull\" Surya",
-      stake: 50, creator: "Gede", status: "open",
+      cardFighter: "Komang \"Bull\" Surya", cardPrice: 60,
+      oppFighter: "Rizky Pratama", oppPrice: 45,
+      creator: "Gede", status: "open",
     },
     {
-      id: "w-seed-2",
+      id: "b-seed-2",
       eventId: "ifl-rise-up", eventName: "IFL: RISE UP!",
       fight: "Putri \"Storm\" Lestari vs Dewi Anjani",
-      side: "Dewi Anjani",
-      stake: 120, creator: "Sarah", status: "open",
+      cardFighter: "Dewi Anjani", cardPrice: 40,
+      oppFighter: "Putri \"Storm\" Lestari", oppPrice: 65,
+      creator: "Sarah", status: "open",
     },
     {
-      id: "w-seed-3",
+      id: "b-seed-3",
       eventId: "urcc-manila", eventName: "URCC: Manila Mayhem",
       fight: "Rolando \"Bakal\" Dy vs Marco Santos",
-      side: "Marco Santos",
-      stake: 80, creator: "Mike", status: "matched", matchedBy: "You",
+      cardFighter: "Marco Santos", cardPrice: 40,
+      oppFighter: "Rolando \"Bakal\" Dy", oppPrice: 70,
+      creator: "Mike", status: "live", claimedBy: "You",
+    },
+  ],
+  collection: [
+    {
+      id: "c-seed-1", battleId: "b-seed-3",
+      eventName: "URCC: Manila Mayhem",
+      fighter: "Rolando \"Bakal\" Dy", price: 70, status: "inplay",
+    },
+    {
+      id: "c-seed-2", battleId: "b-past-1",
+      eventName: "Patong Fight Night",
+      fighter: "Nong Beer", price: 45, status: "tradeable",
     },
   ],
 };
@@ -116,21 +139,26 @@ function save() {
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const money = (n) => "$" + Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const uid = () => "w-" + Math.random().toString(36).slice(2, 9);
+const uid = (p = "x") => p + "-" + Math.random().toString(36).slice(2, 9);
+function escapeAttr(s) { return String(s).replace(/"/g, "&quot;"); }
+function initials(name) {
+  return name.replace(/"/g, "").split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+}
 
 function toast(msg) {
   const t = $("#toast");
   t.textContent = msg;
   t.hidden = false;
   clearTimeout(t._timer);
-  t._timer = setTimeout(() => (t.hidden = true), 2600);
+  t._timer = setTimeout(() => (t.hidden = true), 2800);
 }
 
 /* ---------- render ---------- */
 function render() {
   renderWallet();
   renderEvents();
-  renderWagers();
+  renderBattles();
+  renderCollection();
   renderHeroStats();
   save();
 }
@@ -140,11 +168,11 @@ function renderWallet() {
 }
 
 function renderHeroStats() {
-  const open = state.wagers.filter((w) => w.status === "open").length;
-  const pool = state.wagers
-    .filter((w) => w.status === "matched")
-    .reduce((s, w) => s + w.stake * 2, 0);
-  $("#statPool").textContent = money(pool).replace(".00", "");
+  const open = state.battles.filter((b) => b.status === "open").length;
+  const escrowed = state.battles
+    .filter((b) => b.status !== "settled")
+    .reduce((s, b) => s + b.cardPrice + (b.status === "live" ? b.oppPrice : 0), 0);
+  $("#statPool").textContent = money(escrowed).replace(".00", "");
   $("#statBets").textContent = open;
 }
 
@@ -155,7 +183,7 @@ function renderEvents() {
     const card = document.createElement("div");
     card.className = "event-card" + (ev.featured ? " featured" : "");
     card.dataset.openEvent = ev.id;
-    const openCount = state.wagers.filter((w) => w.eventId === ev.id && w.status === "open").length;
+    const openCount = state.battles.filter((b) => b.eventId === ev.id && b.status === "open").length;
     card.innerHTML = `
       ${ev.featured ? '<div class="ec-tag">MAIN</div>' : ""}
       <div class="ec-org">${ev.org}</div>
@@ -163,52 +191,82 @@ function renderEvents() {
       <div class="ec-meta">📍 ${ev.venue}<br />📅 ${ev.date}</div>
       <div class="ec-foot">
         <span class="pill">${ev.fights.length} fights</span>
-        <span class="pill">${openCount} open wager${openCount === 1 ? "" : "s"}</span>
+        <span class="pill">${openCount} card${openCount === 1 ? "" : "s"} open</span>
       </div>`;
     grid.appendChild(card);
   });
 }
 
-function renderWagers() {
+function renderBattles() {
   const list = $("#wagerList");
   list.innerHTML = "";
-  if (!state.wagers.length) {
-    list.innerHTML = '<div class="empty-note">No wagers yet — open an event and start one with your crew.</div>';
+  if (!state.battles.length) {
+    list.innerHTML = '<div class="empty-note">No card battles yet — open an event and buy a fighter card.</div>';
     return;
   }
-  // open first, then matched, then settled
-  const order = { open: 0, matched: 1, settled: 2 };
-  [...state.wagers]
+  const order = { open: 0, live: 1, settled: 2 };
+  [...state.battles]
     .sort((a, b) => order[a.status] - order[b.status])
-    .forEach((w) => {
+    .forEach((b) => {
       const card = document.createElement("div");
-      card.className = "wager-card " + w.status;
-      const statusLabel =
-        w.status === "open" ? "Open" : w.status === "matched" ? "In Escrow" : "Settled";
+      card.className = "wager-card " + b.status;
+      const statusLabel = b.status === "open" ? "Card Open" : b.status === "live" ? "In the Vault" : "Settled";
+      const statusClass = b.status === "open" ? "status-open" : b.status === "live" ? "status-matched" : "status-settled";
       let right = "";
-      if (w.status === "open") {
-        right = `<button class="btn-mini" data-match="${w.id}">Match Bet</button>`;
-      } else if (w.status === "matched") {
-        right = `<button class="btn-mini alt" data-settle="${w.id}">Settle</button>`;
+      if (b.status === "open") {
+        right = `<button class="btn-mini" data-claim="${b.id}">Claim ${b.oppFighter.split(" ")[0]}'s Card · ${money(b.oppPrice)}</button>`;
+      } else if (b.status === "live") {
+        right = `<button class="btn-mini alt" data-settle="${b.id}">Run the Fight</button>`;
       } else {
-        right = `<span class="wc-detail">🏆 ${w.winner} won</span>`;
+        right = `<span class="wc-detail">🏆 ${b.winner}'s card holder wins both</span>`;
       }
       card.innerHTML = `
         <div>
-          <div class="wc-event">${w.eventName}</div>
-          <div class="wc-fight">${w.fight}</div>
+          <div class="wc-event">${b.eventName}</div>
+          <div class="wc-fight">${b.fight}</div>
           <div class="wc-detail">
-            <b>${w.creator}</b> backs <span class="side">${w.side}</span>
-            ${w.matchedBy ? ` · matched by <b>${w.matchedBy}</b>` : ""}
+            <b>${b.creator}</b> holds the <span class="side">${b.cardFighter}</span> card
+            ${b.claimedBy ? ` · <b>${b.claimedBy}</b> holds <span class="side">${b.oppFighter}</span>` : ""}
           </div>
         </div>
         <div class="wc-right">
-          <span class="wc-status status-${w.status}">${statusLabel}</span>
-          <span class="wc-stake">${money(w.stake)}</span>
+          <span class="wc-status ${statusClass}">${statusLabel}</span>
+          <span class="wc-stake">${money(b.cardPrice + (b.status === "open" ? 0 : b.oppPrice))}</span>
           ${right}
         </div>`;
       list.appendChild(card);
     });
+}
+
+function renderCollection() {
+  const grid = $("#collectionGrid");
+  grid.innerHTML = "";
+  const cards = state.collection;
+  $("#collectionCount").textContent = cards.length;
+  if (!cards.length) {
+    grid.innerHTML = '<div class="empty-note">Your collection is empty — buy a fighter card to get started.</div>';
+    return;
+  }
+  cards.forEach((c) => {
+    const el = document.createElement("div");
+    el.className = "fcard " + c.status;
+    const badge = c.status === "inplay"
+      ? '<span class="fcard-badge inplay">In the Vault</span>'
+      : '<span class="fcard-badge tradeable">Tradeable</span>';
+    const action = c.status === "tradeable"
+      ? `<button class="btn-mini" data-sell="${c.id}">Sell Back · ${money(c.price)}</button>`
+      : `<span class="fcard-locked">🔒 Locked until fight settles</span>`;
+    el.innerHTML = `
+      <div class="fcard-art">${initials(c.fighter)}</div>
+      ${badge}
+      <div class="fcard-name">${c.fighter}</div>
+      <div class="fcard-event">${c.eventName}</div>
+      <div class="fcard-foot">
+        <span class="fcard-price">${money(c.price)}</span>
+        ${action}
+      </div>`;
+    grid.appendChild(el);
+  });
 }
 
 /* ---------- modals ---------- */
@@ -224,13 +282,13 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") $$(".modal-backdrop").forEach((m) => (m.hidden = true));
 });
 
-/* ---------- event modal + bet builder ---------- */
-let builder = { eventId: null, fightId: null, side: null, odds: null };
+/* ---------- event modal + card buyer ---------- */
+let picker = { eventId: null, fightId: null, fighter: null, opponent: null, price: null, oppPrice: null };
 
 function openEventModal(eventId) {
   const ev = EVENTS.find((e) => e.id === eventId);
   if (!ev) return;
-  builder = { eventId, fightId: null, side: null, odds: null };
+  picker = { eventId, fightId: null, fighter: null, opponent: null, price: null, oppPrice: null };
   const body = $("#eventModalBody");
   body.innerHTML = `
     ${ev.poster ? `<div class="em-poster"><img src="${ev.poster}" alt="${escapeAttr(ev.name)} poster" /></div>` : ""}
@@ -245,11 +303,11 @@ function openEventModal(eventId) {
           <div class="fight-bout">${f.a} <span style="color:var(--accent)">vs</span> ${f.b}</div>
           <div class="fight-class">${f.weight}</div>
           <div class="fight-actions">
-            <button class="pick-btn" data-fid="${f.id}" data-side="${escapeAttr(f.a)}" data-odds="${f.oddsA}">
-              ${f.a}<span class="pick-odds">odds ${f.oddsA.toFixed(2)}</span>
+            <button class="pick-btn" data-fid="${f.id}" data-fighter="${escapeAttr(f.a)}" data-opp="${escapeAttr(f.b)}" data-price="${f.cardA}">
+              ${f.a}<span class="pick-odds">suggested ${money(f.cardA)}</span>
             </button>
-            <button class="pick-btn" data-fid="${f.id}" data-side="${escapeAttr(f.b)}" data-odds="${f.oddsB}">
-              ${f.b}<span class="pick-odds">odds ${f.oddsB.toFixed(2)}</span>
+            <button class="pick-btn" data-fid="${f.id}" data-fighter="${escapeAttr(f.b)}" data-opp="${escapeAttr(f.a)}" data-price="${f.cardB}">
+              ${f.b}<span class="pick-odds">suggested ${money(f.cardB)}</span>
             </button>
           </div>
         </div>`
@@ -257,120 +315,153 @@ function openEventModal(eventId) {
         .join("")}
     </div>
     <div class="bet-builder" id="betBuilder" hidden>
-      <h3>Start a wager</h3>
+      <h3>Buy a fighter card</h3>
       <div class="bet-summary" id="betSummary"></div>
-      <label class="field-label">Your stake (USD)</label>
-      <input type="number" id="stakeInput" min="1" placeholder="50.00" />
-      <div class="fee-line"><span>Your stake</span><span id="feeStake">$0.00</span></div>
+      <label class="field-label">Set your card price (USD) — your peer pays the same</label>
+      <input type="number" id="priceInput" min="1" placeholder="50.00" />
+      <div class="fee-line"><span>Card price</span><span id="feeStake">$0.00</span></div>
       <div class="fee-line"><span>Fight Betz hold (5%)</span><span id="feeHold">$0.00</span></div>
       <div class="fee-line total"><span>Debited from wallet</span><span id="feeTotal">$0.00</span></div>
-      <button class="btn-primary full" id="createWager">Lock In &amp; Post Wager</button>
+      <button class="btn-primary full" id="createWager">Buy Card &amp; Open Battle</button>
       <p class="form-note" id="builderNote"></p>
     </div>`;
 
-  // pick buttons
   $$(".pick-btn", body).forEach((btn) => {
     btn.addEventListener("click", () => {
       $$(".pick-btn", body).forEach((b) => b.classList.remove("sel"));
       btn.classList.add("sel");
-      builder.fightId = btn.dataset.fid;
-      builder.side = btn.dataset.side;
-      builder.odds = parseFloat(btn.dataset.odds);
-      const f = ev.fights.find((x) => x.id === builder.fightId);
+      picker.fightId = btn.dataset.fid;
+      picker.fighter = btn.dataset.fighter;
+      picker.opponent = btn.dataset.opp;
+      picker.suggested = parseFloat(btn.dataset.price);
       $("#betBuilder").hidden = false;
-      $("#betSummary").innerHTML = `Backing <b>${builder.side}</b> in ${f.a} vs ${f.b}`;
+      $("#betSummary").innerHTML =
+        `Buying the <b>${picker.fighter}</b> card. If ${picker.fighter} wins their bout, you also collect the <b>${picker.opponent}</b> card.`;
+      $("#priceInput").value = picker.suggested;
       updateFeePreview();
-      $("#stakeInput").focus();
+      $("#priceInput").focus();
     });
   });
 
-  $("#eventModalBody").addEventListener("input", (e) => {
-    if (e.target.id === "stakeInput") updateFeePreview();
+  body.addEventListener("input", (e) => {
+    if (e.target.id === "priceInput") updateFeePreview();
   });
-
   body.addEventListener("click", (e) => {
-    if (e.target.id === "createWager") createWager(ev);
+    if (e.target.id === "createWager") buyCard(ev);
   });
 
   openModal("eventModal");
 }
 
 function updateFeePreview() {
-  const stake = Math.max(0, parseFloat($("#stakeInput").value) || 0);
-  const hold = stake * FEE_RATE;
-  $("#feeStake").textContent = money(stake);
+  const price = Math.max(0, parseFloat($("#priceInput").value) || 0);
+  const hold = price * FEE_RATE;
+  $("#feeStake").textContent = money(price);
   $("#feeHold").textContent = money(hold);
-  $("#feeTotal").textContent = money(stake + hold);
+  $("#feeTotal").textContent = money(price + hold);
 }
 
-function createWager(ev) {
-  const stake = Math.max(0, parseFloat($("#stakeInput").value) || 0);
+function buyCard(ev) {
   const note = $("#builderNote");
-  if (!builder.side) { note.textContent = "Pick a fighter first."; return; }
-  if (stake < 1) { note.textContent = "Enter a stake of at least $1."; return; }
-  const total = stake * (1 + FEE_RATE);
+  if (!picker.fighter) { note.textContent = "Pick a fighter card first."; return; }
+  const price = Math.max(0, parseFloat($("#priceInput").value) || 0);
+  if (price < 1) { note.textContent = "Set a card price of at least $1."; return; }
+  const total = price * (1 + FEE_RATE);
   if (total > state.wallet) {
-    note.textContent = `Need ${money(total)} (stake + 5% hold). Add funds to your wallet.`;
+    note.textContent = `Need ${money(total)} (card + 5% hold). Add funds to your wallet.`;
     return;
   }
-  const f = ev.fights.find((x) => x.id === builder.fightId);
+  const f = ev.fights.find((x) => x.id === picker.fightId);
   state.wallet -= total;
-  state.wagers.unshift({
-    id: uid(),
+  const battleId = uid("b");
+  state.battles.unshift({
+    id: battleId,
     eventId: ev.id,
     eventName: ev.name,
     fight: `${f.a} vs ${f.b}`,
-    side: builder.side,
-    stake,
-    creator: "You",
-    status: "open",
+    cardFighter: picker.fighter, cardPrice: price,
+    oppFighter: picker.opponent, oppPrice: price,
+    creator: "You", status: "open",
+  });
+  state.collection.unshift({
+    id: uid("c"), battleId,
+    eventName: ev.name,
+    fighter: picker.fighter, price: picker.price, status: "inplay",
   });
   save();
   render();
   closeModal($("#eventModal"));
-  toast(`Wager posted — ${money(stake)} on ${builder.side}`);
+  toast(`Bought the ${picker.fighter} card — battle is open.`);
 }
 
-/* ---------- match a wager ---------- */
-function matchWager(id) {
-  const w = state.wagers.find((x) => x.id === id);
-  if (!w || w.status !== "open") return;
-  const total = w.stake * (1 + FEE_RATE);
-  if (w.creator === "You") { toast("That's your own wager — wait for a friend to match it."); return; }
+/* ---------- claim the opponent card on an open battle ---------- */
+function claimCard(id) {
+  const b = state.battles.find((x) => x.id === id);
+  if (!b || b.status !== "open") return;
+  if (b.creator === "You") { toast("That's your own card battle — wait for a friend to claim the other card."); return; }
+  const total = b.oppPrice * (1 + FEE_RATE);
   if (total > state.wallet) {
     openDepositModal();
-    toast(`Need ${money(total)} to match this wager.`);
+    toast(`Need ${money(total)} to claim the ${b.oppFighter} card.`);
     return;
   }
   state.wallet -= total;
-  w.status = "matched";
-  w.matchedBy = "You";
+  b.status = "live";
+  b.claimedBy = "You";
+  state.collection.unshift({
+    id: uid("c"), battleId: b.id,
+    eventName: b.eventName,
+    fighter: b.oppFighter, price: b.oppPrice, status: "inplay",
+  });
   save();
   render();
-  toast(`Matched! ${money(w.stake * 2)} locked in escrow.`);
+  toast(`Claimed the ${b.oppFighter} card — both cards are in the vault.`);
 }
 
-/* ---------- settle a wager ---------- */
-function settleWager(id) {
-  const w = state.wagers.find((x) => x.id === id);
-  if (!w || w.status !== "matched") return;
-  // demo: winner is whichever side a coin lands on; payout = both stakes minus already-taken fee
-  const creatorWins = Math.random() < 0.5;
-  w.status = "settled";
-  w.winner = creatorWins ? w.creator : w.matchedBy;
-  const youInvolved = w.creator === "You" || w.matchedBy === "You";
-  const youWon = (creatorWins && w.creator === "You") || (!creatorWins && w.matchedBy === "You");
-  const payout = w.stake * 2; // 5% was already held on each side at entry
-  if (youInvolved && youWon) {
-    state.wallet += payout;
-    toast(`🏆 You won ${money(payout)} — paid out from escrow.`);
-  } else if (youInvolved) {
-    toast(`${w.winner} won this one. Escrow disbursed.`);
+/* ---------- run the fight: settle a live battle ---------- */
+function settleBattle(id) {
+  const b = state.battles.find((x) => x.id === id);
+  if (!b || b.status !== "live") return;
+  const cardWins = Math.random() < 0.5;
+  const winner = cardWins ? b.cardFighter : b.oppFighter;
+  const loser = cardWins ? b.oppFighter : b.cardFighter;
+  const loserPrice = cardWins ? b.oppPrice : b.cardPrice;
+  b.status = "settled";
+  b.winner = winner;
+
+  // resolve any cards "You" hold in this battle
+  const mine = state.collection.filter((c) => c.battleId === b.id);
+  const wonCard = mine.find((c) => c.fighter === winner);
+  const lostCard = mine.find((c) => c.fighter === loser);
+  if (wonCard) wonCard.status = "tradeable";
+  if (lostCard) state.collection = state.collection.filter((c) => c.id !== lostCard.id);
+
+  if (wonCard) {
+    // winner also collects the loser's card
+    state.collection.unshift({
+      id: uid("c"), battleId: b.id,
+      eventName: b.eventName,
+      fighter: loser, price: loserPrice, status: "tradeable",
+    });
+    toast(`🏆 ${winner} won! You collected the ${loser} card too — both are now tradeable.`);
+  } else if (lostCard) {
+    toast(`${winner} won. Your ${loser} card was transferred to the winner.`);
   } else {
-    toast(`Settled — ${w.winner} takes ${money(payout)}.`);
+    toast(`Settled — ${winner}'s card holder takes both cards.`);
   }
   save();
   render();
+}
+
+/* ---------- sell a tradeable card back to Fight Betz ---------- */
+function sellCard(id) {
+  const c = state.collection.find((x) => x.id === id);
+  if (!c || c.status !== "tradeable") return;
+  state.wallet += c.price;
+  state.collection = state.collection.filter((x) => x.id !== id);
+  save();
+  render();
+  toast(`Sold the ${c.fighter} card back for ${money(c.price)}.`);
 }
 
 /* ---------- deposit ---------- */
@@ -381,9 +472,6 @@ function openDepositModal() {
 }
 
 $("#openDeposit").addEventListener("click", openDepositModal);
-$("#walletChip").addEventListener("click", (e) => {
-  if (e.target.id !== "openDeposit") return;
-});
 
 $$(".method-tab").forEach((tab) => {
   tab.addEventListener("click", () => {
@@ -427,14 +515,13 @@ $("#listForm").addEventListener("submit", (e) => {
 document.addEventListener("click", (e) => {
   const openEv = e.target.closest("[data-open-event]");
   if (openEv) { openEventModal(openEv.dataset.openEvent); return; }
-  const matchBtn = e.target.closest("[data-match]");
-  if (matchBtn) { matchWager(matchBtn.dataset.match); return; }
+  const claimBtn = e.target.closest("[data-claim]");
+  if (claimBtn) { claimCard(claimBtn.dataset.claim); return; }
   const settleBtn = e.target.closest("[data-settle]");
-  if (settleBtn) { settleWager(settleBtn.dataset.settle); return; }
+  if (settleBtn) { settleBattle(settleBtn.dataset.settle); return; }
+  const sellBtn = e.target.closest("[data-sell]");
+  if (sellBtn) { sellCard(sellBtn.dataset.sell); return; }
 });
-
-/* ---------- util ---------- */
-function escapeAttr(s) { return String(s).replace(/"/g, "&quot;"); }
 
 /* ---------- boot ---------- */
 render();

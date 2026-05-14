@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Fight Betz — P2P Fight Gambling</title>
+<title>Fight Betz — P2P Fighter Card Battles</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -19,7 +19,8 @@
   </div>
   <nav class="topnav">
     <a href="#events" class="navlink">Events</a>
-    <a href="#wagers" class="navlink">Wagers</a>
+    <a href="#wagers" class="navlink">Card Battles</a>
+    <a href="#collection" class="navlink">My Collection</a>
     <a href="#list-event" class="navlink">List Event</a>
     <a href="#how" class="navlink">How It Works</a>
   </nav>
@@ -45,16 +46,17 @@
           <span>📅 Sat, May 31 2026 · 7:00 PM WITA</span>
         </div>
         <p class="hero-blurb">
-          The biggest island throwdown of the year. Lock in a wager with your crew before the cage doors close.
+          No cash bets — you collect <strong>fighter cards</strong>. Buy your fighter's NFT card, a mate buys their
+          opponent for the same price, and the cards battle. Winner takes both.
         </p>
         <div class="hero-actions">
-          <button class="btn-primary" data-open-event="ifl-rise-up">View Card & Wager →</button>
-          <a class="btn-ghost" href="#how">How escrow works</a>
+          <button class="btn-primary" data-open-event="ifl-rise-up">View Fight Card →</button>
+          <a class="btn-ghost" href="#how">How it works</a>
         </div>
         <div class="hero-stats">
-          <div><strong id="statPool">$0</strong><span>In escrow</span></div>
-          <div><strong id="statBets">0</strong><span>Open wagers</span></div>
-          <div><strong>5%</strong><span>House hold</span></div>
+          <div><strong id="statPool">$0</strong><span>Cards in vault</span></div>
+          <div><strong id="statBets">0</strong><span>Open card battles</span></div>
+          <div><strong>5%</strong><span>Platform hold</span></div>
         </div>
       </div>
       <div class="hero-poster">
@@ -63,35 +65,96 @@
     </div>
   </section>
 
+  <!-- ===== SHOWCASE: FIGHTER NFT CARD ===== -->
+  <section id="showcase" class="section showcase">
+    <div class="section-head">
+      <h2>🃏 The Fighter Card</h2>
+      <p>Every fighter is a collectible NFT card — stats, record &amp; serial number, like a fight-game baseball card.</p>
+    </div>
+    <div class="showcase-wrap">
+      <!-- the card -->
+      <div class="nft-card" id="showcaseCard">
+        <div class="nft-foil"></div>
+        <div class="nft-shine"></div>
+        <div class="nft-top">
+          <span class="nft-org">IFL · ISLAND FIGHTERS LEAGUE</span>
+          <span class="nft-serial">#001 / 250</span>
+        </div>
+        <div class="nft-portrait">
+          <span class="nft-initials">KS</span>
+          <span class="nft-rarity">★ LEGENDARY</span>
+        </div>
+        <div class="nft-name">Komang “Bull” Surya</div>
+        <div class="nft-tagline">Lightweight · Mataram, Lombok 🇮🇩</div>
+        <div class="nft-record">
+          <div><strong>14-2-0</strong><span>Record</span></div>
+          <div><strong>9</strong><span>KO / TKO</span></div>
+          <div><strong>W5</strong><span>Streak</span></div>
+        </div>
+        <div class="nft-stats">
+          <div class="nft-stat"><span>Striking</span><div class="bar"><i style="width:88%"></i></div><b>88</b></div>
+          <div class="nft-stat"><span>Power</span><div class="bar"><i style="width:85%"></i></div><b>85</b></div>
+          <div class="nft-stat"><span>Grappling</span><div class="bar"><i style="width:74%"></i></div><b>74</b></div>
+          <div class="nft-stat"><span>Cardio</span><div class="bar"><i style="width:91%"></i></div><b>91</b></div>
+          <div class="nft-stat"><span>Chin</span><div class="bar"><i style="width:80%"></i></div><b>80</b></div>
+        </div>
+        <div class="nft-foot">
+          <span>26 yrs · 5'9" · 71" reach · Orthodox</span>
+          <span class="nft-overall">OVR <b>87</b></span>
+        </div>
+      </div>
+      <!-- explainer -->
+      <div class="showcase-copy">
+        <h3>How a card works</h3>
+        <ul class="showcase-list">
+          <li><b>It's owned by you.</b> Buy a fighter's card and it sits in your collection — verifiable, transferable, yours.</li>
+          <li><b>It has a face value.</b> You set the price you buy it for. Fight Betz can always buy it back from you at that value.</li>
+          <li><b>It fights.</b> When the real bout happens, your card battles your peer's card. The winner's holder collects both.</li>
+          <li><b>It's tradeable.</b> Won a card? Sell it back to Fight Betz for its face value, or hold it for the next event.</li>
+        </ul>
+        <button class="btn-primary" data-open-event="ifl-rise-up">Buy a Card from IFL: RISE UP! →</button>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== EVENTS ===== -->
   <section id="events" class="section">
     <div class="section-head">
       <h2>🔥 Upcoming Events</h2>
-      <p>Local & international leagues. Tap a card to see fights and bet your friends.</p>
+      <p>Local Patong &amp; Filipino cards plus the IFL main event. Tap an event to buy fighter cards.</p>
     </div>
     <div class="event-grid" id="eventGrid"></div>
   </section>
 
-  <!-- ===== OPEN WAGERS ===== -->
+  <!-- ===== OPEN CARD BATTLES ===== -->
   <section id="wagers" class="section">
     <div class="section-head">
-      <h2>🤝 Open Wagers</h2>
-      <p>Peer-to-peer bets started by the community. Match one to lock it in escrow.</p>
+      <h2>🤝 Open Card Battles</h2>
+      <p>A friend bought a fighter's card. Claim the opponent's card for the same price — winner takes both.</p>
     </div>
     <div class="wager-list" id="wagerList"></div>
+  </section>
+
+  <!-- ===== MY COLLECTION ===== -->
+  <section id="collection" class="section">
+    <div class="section-head">
+      <h2>🗂️ My Collection <span class="count-chip" id="collectionCount">0</span></h2>
+      <p>Fighter cards you hold. Locked while their bout is in the vault — tradeable once it settles.</p>
+    </div>
+    <div class="card-grid" id="collectionGrid"></div>
   </section>
 
   <!-- ===== HOW IT WORKS ===== -->
   <section id="how" class="section how">
     <div class="section-head">
       <h2>⚙️ How Fight Betz Works</h2>
-      <p>Built for friends &amp; friends-of-friends. We hold the cash so nobody ghosts the payout.</p>
+      <p>No cash gambling — it's a fighter-card game for friends &amp; friends-of-friends. We escrow the cards so nobody welches.</p>
     </div>
     <div class="how-grid">
       <div class="how-card"><span class="how-num">1</span><h3>Fund your wallet</h3><p>Top up with crypto (USDC, BTC, ETH) or a bank transfer. Funds sit in your Fight Betz wallet.</p></div>
-      <div class="how-card"><span class="how-num">2</span><h3>Start or match a wager</h3><p>Pick a fight, pick a side, set your stake. A friend matches the other side.</p></div>
-      <div class="how-card"><span class="how-num">3</span><h3>We escrow both stakes</h3><p>Both stakes are locked. Fight Betz takes a <strong>5% hold</strong> so the pot is guaranteed — no chasing mates for money.</p></div>
-      <div class="how-card"><span class="how-num">4</span><h3>Winner gets paid out</h3><p>When the result is in, the escrow auto-disburses to the winner. Withdraw to crypto or bank anytime.</p></div>
+      <div class="how-card"><span class="how-num">2</span><h3>Buy your fighter's card</h3><p>Pick a fight, pick your fighter, and <strong>set the price</strong> you want to pay for their NFT card.</p></div>
+      <div class="how-card"><span class="how-num">3</span><h3>A peer buys the opponent</h3><p>A friend claims the other fighter's card for the <strong>same price</strong>. Both cards go into the Fight Betz vault.</p></div>
+      <div class="how-card"><span class="how-num">4</span><h3>The cards fight — winner takes both</h3><p>When the real bout settles, the losing card is transferred to the winner's holder. We take a <strong>5% hold</strong> to run escrow. Sell cards back anytime for face value.</p></div>
     </div>
   </section>
 
@@ -99,7 +162,7 @@
   <section id="list-event" class="section list-event">
     <div class="section-head">
       <h2>📣 Fight Promoters — List Your Event</h2>
-      <p>Running a local card? Get it in front of the whole Fight Betz community.</p>
+      <p>Running a local card? Get your fighters minted as cards in front of the whole Fight Betz community.</p>
     </div>
     <form class="list-form" id="listForm">
       <div class="form-row">
@@ -114,7 +177,7 @@
         <label>Contact email<input name="email" type="email" required placeholder="you@promoter.com" /></label>
         <label>Expected fights<input name="fights" type="number" min="1" placeholder="e.g. 8" /></label>
       </div>
-      <label>Pitch<textarea name="pitch" rows="3" placeholder="Tell the community why they should bet on your card..."></textarea></label>
+      <label>Pitch<textarea name="pitch" rows="3" placeholder="Tell the community about your card and fighters..."></textarea></label>
       <button type="submit" class="btn-primary">Submit Event Request</button>
       <p class="form-note" id="listNote"></p>
     </form>
@@ -124,8 +187,8 @@
 
 <footer class="footer">
   <div class="footer-brand">🥊 FIGHT<span class="logo-accent">BETZ</span></div>
-  <p>Peer-to-peer fight gambling for your crew. Bet responsibly — only stake what you can lose.</p>
-  <p class="footer-fine">Demo build. No real money is processed. 18+ where legal.</p>
+  <p>Peer-to-peer fighter card battles for your crew. Collect cards, not debts.</p>
+  <p class="footer-fine">Demo build. No real money is processed. Play responsibly. 18+ where applicable.</p>
 </footer>
 
 <!-- ===== EVENT MODAL ===== -->
@@ -136,20 +199,12 @@
   </div>
 </div>
 
-<!-- ===== WAGER MODAL ===== -->
-<div class="modal-backdrop" id="wagerModal" hidden>
-  <div class="modal">
-    <button class="modal-close" data-close>✕</button>
-    <div id="wagerModalBody"></div>
-  </div>
-</div>
-
 <!-- ===== DEPOSIT MODAL ===== -->
 <div class="modal-backdrop" id="depositModal" hidden>
   <div class="modal">
     <button class="modal-close" data-close>✕</button>
     <h2 class="modal-title">💰 Add Funds</h2>
-    <p class="modal-desc">Money lands in your Fight Betz wallet, ready to escrow.</p>
+    <p class="modal-desc">Money lands in your Fight Betz wallet, ready to buy fighter cards.</p>
     <div class="method-tabs">
       <button class="method-tab active" data-method="crypto">🪙 Crypto</button>
       <button class="method-tab" data-method="bank">🏦 Bank Transfer</button>
@@ -163,7 +218,7 @@
       </select>
       <div class="deposit-addr">
         <span class="field-label">Send to deposit address</span>
-        <code id="cryptoAddr">0xF1GHT…b372</code>
+        <code id="cryptoAddr">0xF1GHT7e2a9c4Bd31aE0fC9b372</code>
       </div>
     </div>
     <div class="method-pane" id="bankPane" hidden>

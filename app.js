@@ -8,7 +8,7 @@
    ============================================================ */
 
 const FEE_RATE = 0.05; // 5% platform hold
-const STORE_KEY = "fightbetz.v3";
+const STORE_KEY = "fightbetz.v4";
 
 /* ---------- seed data: events, fights, card prices ---------- */
 const EVENTS = [
@@ -21,10 +21,11 @@ const EVENTS = [
     featured: true,
     poster: "rise-up-event.png",
     fights: [
-      { id: "f1", a: "Komang \"Bull\" Surya", b: "Rizky Pratama", weight: "Lightweight Title", cardA: 60, cardB: 45 },
-      { id: "f2", a: "Wayan Adi", b: "Joao \"Tsunami\" Silva", weight: "Welterweight", cardA: 40, cardB: 70 },
-      { id: "f3", a: "Ketut Mahendra", b: "Bagus Nugraha", weight: "Featherweight", cardA: 50, cardB: 50 },
-      { id: "f4", a: "Putri \"Storm\" Lestari", b: "Dewi Anjani", weight: "Women's Strawweight", cardA: 65, cardB: 40 },
+      { id: "f1", a: "Komang \"Bull\" Surya", b: "Rizky Pratama", weight: "Lightweight Title", oddsA: 1.6, oddsB: 2.4, cardA: 100, cardB: 67 },
+      { id: "f2", a: "Wayan Adi", b: "Joao \"Tsunami\" Silva", weight: "Welterweight", oddsA: 2.6, oddsB: 1.5, cardA: 58, cardB: 100 },
+      { id: "f3", a: "Ketut Mahendra", b: "Bagus Nugraha", weight: "Featherweight", oddsA: 1.95, oddsB: 1.95, cardA: 100, cardB: 100 },
+      { id: "f4", a: "Putri \"Storm\" Lestari", b: "Dewi Anjani", weight: "Women's Strawweight", oddsA: 1.55, oddsB: 2.6, cardA: 100, cardB: 60 },
+      { id: "f5", a: "Jason Ponet", b: "Bagas Wirawan", weight: "Catchweight 77kg", oddsA: 1.9, oddsB: 1.95, cardA: 100, cardB: 97 },
     ],
   },
   {
@@ -34,9 +35,9 @@ const EVENTS = [
     venue: "Patong Boxing Stadium, Phuket — Thailand",
     date: "Fri 6 Jun 2026 · 9:00 PM ICT",
     fights: [
-      { id: "f1", a: "Sangtiennoi Sor Rungroj", b: "Petch Bangla", weight: "Muay Thai 70kg", cardA: 55, cardB: 40 },
-      { id: "f2", a: "Yodwicha Kawila", b: "Liam \"Pommie\" Carter", weight: "Muay Thai 65kg", cardA: 70, cardB: 35 },
-      { id: "f3", a: "Nong Beer", b: "Kaito Yamada", weight: "Muay Thai 60kg", cardA: 45, cardB: 55 },
+      { id: "f1", a: "Sangtiennoi Sor Rungroj", b: "Petch Bangla", weight: "Muay Thai 70kg", oddsA: 1.7, oddsB: 2.2, cardA: 100, cardB: 77 },
+      { id: "f2", a: "Yodwicha Kawila", b: "Liam \"Pommie\" Carter", weight: "Muay Thai 65kg", oddsA: 1.3, oddsB: 3.6, cardA: 100, cardB: 36 },
+      { id: "f3", a: "Nong Beer", b: "Kaito Yamada", weight: "Muay Thai 60kg", oddsA: 2.1, oddsB: 1.75, cardA: 83, cardB: 100 },
     ],
   },
   {
@@ -46,8 +47,8 @@ const EVENTS = [
     venue: "Suwit Stadium, Patong — Phuket",
     date: "Sat 21 Jun 2026 · 8:30 PM ICT",
     fights: [
-      { id: "f1", a: "Phet Patong", b: "Diego \"Hammer\" Ruiz", weight: "Muay Thai Title 67kg", cardA: 50, cardB: 48 },
-      { id: "f2", a: "Mai \"Lightning\" Chai", b: "Anya Volkova", weight: "Women's Muay Thai 55kg", cardA: 60, cardB: 40 },
+      { id: "f1", a: "Phet Patong", b: "Diego \"Hammer\" Ruiz", weight: "Muay Thai Title 67kg", oddsA: 1.9, oddsB: 1.95, cardA: 100, cardB: 97 },
+      { id: "f2", a: "Mai \"Lightning\" Chai", b: "Anya Volkova", weight: "Women's Muay Thai 55kg", oddsA: 1.6, oddsB: 2.4, cardA: 100, cardB: 67 },
     ],
   },
   {
@@ -57,9 +58,9 @@ const EVENTS = [
     venue: "Mall of Asia Arena, Manila — Philippines",
     date: "Sat 28 Jun 2026 · 7:00 PM PHT",
     fights: [
-      { id: "f1", a: "Rolando \"Bakal\" Dy", b: "Marco Santos", weight: "Lightweight Title", cardA: 70, cardB: 40 },
-      { id: "f2", a: "Jenelyn Olsim", b: "Trish Mendoza", weight: "Women's Atomweight", cardA: 52, cardB: 45 },
-      { id: "f3", a: "Carlo \"Bigboy\" Pedregosa", b: "Kevin Lim", weight: "Featherweight", cardA: 42, cardB: 58 },
+      { id: "f1", a: "Rolando \"Bakal\" Dy", b: "Marco Santos", weight: "Lightweight Title", oddsA: 1.45, oddsB: 2.9, cardA: 100, cardB: 50 },
+      { id: "f2", a: "Jenelyn Olsim", b: "Trish Mendoza", weight: "Women's Atomweight", oddsA: 1.8, oddsB: 2.05, cardA: 100, cardB: 88 },
+      { id: "f3", a: "Carlo \"Bigboy\" Pedregosa", b: "Kevin Lim", weight: "Featherweight", oddsA: 2.3, oddsB: 1.6, cardA: 70, cardB: 100 },
     ],
   },
   {
@@ -69,8 +70,8 @@ const EVENTS = [
     venue: "Hoops Dome, Lapu-Lapu City — Cebu",
     date: "Sun 12 Jul 2026 · 4:00 PM PHT",
     fights: [
-      { id: "f1", a: "Mark \"Magnifico\" Reyes", b: "Joey Canada", weight: "Super Flyweight Title", cardA: 80, cardB: 35 },
-      { id: "f2", a: "Aljun Bacalso", b: "Tatsuya Mori", weight: "Bantamweight", cardA: 48, cardB: 52 },
+      { id: "f1", a: "Mark \"Magnifico\" Reyes", b: "Joey Canada", weight: "Super Flyweight Title", oddsA: 1.2, oddsB: 4.6, cardA: 500, cardB: 100 },
+      { id: "f2", a: "Aljun Bacalso", b: "Tatsuya Mori", weight: "Bantamweight", oddsA: 2.0, oddsB: 1.85, cardA: 93, cardB: 100 },
     ],
   },
 ];
@@ -87,24 +88,24 @@ const defaultState = {
       id: "b-seed-1",
       eventId: "ifl-rise-up", eventName: "IFL: RISE UP!",
       fight: "Komang \"Bull\" Surya vs Rizky Pratama",
-      cardFighter: "Komang \"Bull\" Surya", cardPrice: 60,
-      oppFighter: "Rizky Pratama", oppPrice: 45,
+      cardFighter: "Komang \"Bull\" Surya", cardPrice: 100, oddsCard: 1.6,
+      oppFighter: "Rizky Pratama", oppPrice: 67, oddsOpp: 2.4,
       creator: "Gede", status: "open",
     },
     {
       id: "b-seed-2",
       eventId: "ifl-rise-up", eventName: "IFL: RISE UP!",
       fight: "Putri \"Storm\" Lestari vs Dewi Anjani",
-      cardFighter: "Dewi Anjani", cardPrice: 40,
-      oppFighter: "Putri \"Storm\" Lestari", oppPrice: 65,
+      cardFighter: "Dewi Anjani", cardPrice: 60, oddsCard: 2.6,
+      oppFighter: "Putri \"Storm\" Lestari", oppPrice: 100, oddsOpp: 1.55,
       creator: "Sarah", status: "open",
     },
     {
       id: "b-seed-3",
       eventId: "urcc-manila", eventName: "URCC: Manila Mayhem",
       fight: "Rolando \"Bakal\" Dy vs Marco Santos",
-      cardFighter: "Marco Santos", cardPrice: 40,
-      oppFighter: "Rolando \"Bakal\" Dy", oppPrice: 70,
+      cardFighter: "Marco Santos", cardPrice: 50, oddsCard: 2.9,
+      oppFighter: "Rolando \"Bakal\" Dy", oppPrice: 100, oddsOpp: 1.45,
       creator: "Mike", status: "live", claimedBy: "You",
     },
   ],
@@ -112,7 +113,7 @@ const defaultState = {
     {
       id: "c-seed-1", battleId: "b-seed-3",
       eventName: "URCC: Manila Mayhem",
-      fighter: "Rolando \"Bakal\" Dy", price: 70, status: "inplay",
+      fighter: "Rolando \"Bakal\" Dy", price: 100, status: "inplay",
     },
     {
       id: "c-seed-2", battleId: "b-past-1",
@@ -220,13 +221,17 @@ function renderBattles() {
       } else {
         right = `<span class="wc-detail">🏆 ${b.winner}'s card holder wins both</span>`;
       }
+      const oddsCard = b.oddsCard ? ` @ ${b.oddsCard.toFixed(2)}` : "";
+      const oddsOpp = b.oddsOpp ? ` @ ${b.oddsOpp.toFixed(2)}` : "";
       card.innerHTML = `
         <div>
           <div class="wc-event">${b.eventName}</div>
           <div class="wc-fight">${b.fight}</div>
           <div class="wc-detail">
-            <b>${b.creator}</b> holds the <span class="side">${b.cardFighter}</span> card
-            ${b.claimedBy ? ` · <b>${b.claimedBy}</b> holds <span class="side">${b.oppFighter}</span>` : ""}
+            <b>${b.creator}</b> holds <span class="side">${b.cardFighter}</span>${oddsCard} — ${money(b.cardPrice)}
+            ${b.claimedBy
+              ? ` · <b>${b.claimedBy}</b> holds <span class="side">${b.oppFighter}</span>${oddsOpp} — ${money(b.oppPrice)}`
+              : ` · <span class="side">${b.oppFighter}</span>${oddsOpp} card open for ${money(b.oppPrice)}`}
           </div>
         </div>
         <div class="wc-right">
@@ -283,12 +288,19 @@ document.addEventListener("keydown", (e) => {
 });
 
 /* ---------- event modal + card buyer ---------- */
-let picker = { eventId: null, fightId: null, fighter: null, opponent: null, price: null, oppPrice: null };
+let picker = {};
 
-function openEventModal(eventId) {
+// favourite (lower odds) card costs proportionally MORE. The peer buying the
+// opponent pays a price scaled by the win-probability ratio, so a short
+// favourite costs a lot and the longshot is cheap.
+function fairOppPrice(myPrice, myOdds, oppOdds) {
+  return Math.max(1, Math.round(myPrice * (myOdds / oppOdds)));
+}
+
+function openEventModal(eventId, autoFightId) {
   const ev = EVENTS.find((e) => e.id === eventId);
   if (!ev) return;
-  picker = { eventId, fightId: null, fighter: null, opponent: null, price: null, oppPrice: null };
+  picker = { eventId };
   const body = $("#eventModalBody");
   body.innerHTML = `
     ${ev.poster ? `<div class="em-poster"><img src="${ev.poster}" alt="${escapeAttr(ev.name)} poster" /></div>` : ""}
@@ -297,31 +309,33 @@ function openEventModal(eventId) {
     <div class="em-meta">📍 ${ev.venue} &nbsp; · &nbsp; 📅 ${ev.date}</div>
     <div id="fightList">
       ${ev.fights
-        .map(
-          (f) => `
+        .map((f) => {
+          const favA = f.oddsA <= f.oddsB;
+          return `
         <div class="fight-row" data-fight="${f.id}">
           <div class="fight-bout">${f.a} <span style="color:var(--accent)">vs</span> ${f.b}</div>
           <div class="fight-class">${f.weight}</div>
           <div class="fight-actions">
-            <button class="pick-btn" data-fid="${f.id}" data-fighter="${escapeAttr(f.a)}" data-opp="${escapeAttr(f.b)}" data-price="${f.cardA}">
-              ${f.a}<span class="pick-odds">suggested ${money(f.cardA)}</span>
+            <button class="pick-btn" data-fid="${f.id}" data-fighter="${escapeAttr(f.a)}" data-opp="${escapeAttr(f.b)}" data-odds="${f.oddsA}" data-oppodds="${f.oddsB}" data-price="${f.cardA}">
+              ${f.a}<span class="pick-odds">${favA ? "★ fav " : ""}odds ${f.oddsA.toFixed(2)} · card ~${money(f.cardA)}</span>
             </button>
-            <button class="pick-btn" data-fid="${f.id}" data-fighter="${escapeAttr(f.b)}" data-opp="${escapeAttr(f.a)}" data-price="${f.cardB}">
-              ${f.b}<span class="pick-odds">suggested ${money(f.cardB)}</span>
+            <button class="pick-btn" data-fid="${f.id}" data-fighter="${escapeAttr(f.b)}" data-opp="${escapeAttr(f.a)}" data-odds="${f.oddsB}" data-oppodds="${f.oddsA}" data-price="${f.cardB}">
+              ${f.b}<span class="pick-odds">${!favA ? "★ fav " : ""}odds ${f.oddsB.toFixed(2)} · card ~${money(f.cardB)}</span>
             </button>
           </div>
-        </div>`
-        )
+        </div>`;
+        })
         .join("")}
     </div>
     <div class="bet-builder" id="betBuilder" hidden>
       <h3>Buy a fighter card</h3>
       <div class="bet-summary" id="betSummary"></div>
-      <label class="field-label">Set your card price (USD) — your peer pays the same</label>
-      <input type="number" id="priceInput" min="1" placeholder="50.00" />
-      <div class="fee-line"><span>Card price</span><span id="feeStake">$0.00</span></div>
+      <label class="field-label">Set your card price (USD)</label>
+      <input type="number" id="priceInput" min="1" placeholder="100.00" />
+      <div class="fee-line"><span>Your card price</span><span id="feeStake">$0.00</span></div>
       <div class="fee-line"><span>Fight Betz hold (5%)</span><span id="feeHold">$0.00</span></div>
-      <div class="fee-line total"><span>Debited from wallet</span><span id="feeTotal">$0.00</span></div>
+      <div class="fee-line total"><span>Debited from your wallet</span><span id="feeTotal">$0.00</span></div>
+      <div class="odds-split" id="oddsSplit"></div>
       <button class="btn-primary full" id="createWager">Buy Card &amp; Open Battle</button>
       <p class="form-note" id="builderNote"></p>
     </div>`;
@@ -333,10 +347,14 @@ function openEventModal(eventId) {
       picker.fightId = btn.dataset.fid;
       picker.fighter = btn.dataset.fighter;
       picker.opponent = btn.dataset.opp;
+      picker.odds = parseFloat(btn.dataset.odds);
+      picker.oppOdds = parseFloat(btn.dataset.oppodds);
       picker.suggested = parseFloat(btn.dataset.price);
+      const role = picker.odds <= picker.oppOdds ? "the favourite" : "the underdog";
       $("#betBuilder").hidden = false;
       $("#betSummary").innerHTML =
-        `Buying the <b>${picker.fighter}</b> card. If ${picker.fighter} wins their bout, you also collect the <b>${picker.opponent}</b> card.`;
+        `Buying the <b>${picker.fighter}</b> card — they're <b>${role}</b> at odds ${picker.odds.toFixed(2)}. ` +
+        `If ${picker.fighter} wins their bout, you also collect the <b>${picker.opponent}</b> card.`;
       $("#priceInput").value = picker.suggested;
       updateFeePreview();
       $("#priceInput").focus();
@@ -351,6 +369,15 @@ function openEventModal(eventId) {
   });
 
   openModal("eventModal");
+
+  // optionally jump straight to a fight and pre-select fighter A
+  if (autoFightId) {
+    const row = body.querySelector(`.fight-row[data-fight="${autoFightId}"]`);
+    if (row) {
+      row.querySelector(".pick-btn").click();
+      row.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
 }
 
 function updateFeePreview() {
@@ -359,6 +386,16 @@ function updateFeePreview() {
   $("#feeStake").textContent = money(price);
   $("#feeHold").textContent = money(hold);
   $("#feeTotal").textContent = money(price + hold);
+  const oppPrice = fairOppPrice(price, picker.odds, picker.oppOdds);
+  picker.oppComputed = oppPrice;
+  const youFav = picker.odds <= picker.oppOdds;
+  $("#oddsSplit").innerHTML =
+    `<span class="odds-split-icon">⚖️</span>
+     <span><b>Odds-fair pricing.</b> ${picker.opponent} is the ${youFav ? "underdog" : "favourite"} at
+     odds ${picker.oppOdds.toFixed(2)} — your peer buys their card for
+     <b>${money(oppPrice)}</b>. ${youFav
+        ? "You back the favourite, so your card costs more."
+        : "You back the underdog, so your card is cheaper."}</span>`;
 }
 
 function buyCard(ev) {
@@ -371,6 +408,7 @@ function buyCard(ev) {
     note.textContent = `Need ${money(total)} (card + 5% hold). Add funds to your wallet.`;
     return;
   }
+  const oppPrice = fairOppPrice(price, picker.odds, picker.oppOdds);
   const f = ev.fights.find((x) => x.id === picker.fightId);
   state.wallet -= total;
   const battleId = uid("b");
@@ -379,19 +417,19 @@ function buyCard(ev) {
     eventId: ev.id,
     eventName: ev.name,
     fight: `${f.a} vs ${f.b}`,
-    cardFighter: picker.fighter, cardPrice: price,
-    oppFighter: picker.opponent, oppPrice: price,
+    cardFighter: picker.fighter, cardPrice: price, oddsCard: picker.odds,
+    oppFighter: picker.opponent, oppPrice, oddsOpp: picker.oppOdds,
     creator: "You", status: "open",
   });
   state.collection.unshift({
     id: uid("c"), battleId,
     eventName: ev.name,
-    fighter: picker.fighter, price: picker.price, status: "inplay",
+    fighter: picker.fighter, price, status: "inplay",
   });
   save();
   render();
   closeModal($("#eventModal"));
-  toast(`Bought the ${picker.fighter} card — battle is open.`);
+  toast(`Bought the ${picker.fighter} card for ${money(price)} — battle is open.`);
 }
 
 /* ---------- claim the opponent card on an open battle ---------- */
@@ -514,7 +552,7 @@ $("#listForm").addEventListener("submit", (e) => {
 /* ---------- global click delegation ---------- */
 document.addEventListener("click", (e) => {
   const openEv = e.target.closest("[data-open-event]");
-  if (openEv) { openEventModal(openEv.dataset.openEvent); return; }
+  if (openEv) { openEventModal(openEv.dataset.openEvent, openEv.dataset.openFight); return; }
   const claimBtn = e.target.closest("[data-claim]");
   if (claimBtn) { claimCard(claimBtn.dataset.claim); return; }
   const settleBtn = e.target.closest("[data-settle]");

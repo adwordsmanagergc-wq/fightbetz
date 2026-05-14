@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fight Betz — P2P Fight Gambling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<header class="topbar">
+  <div class="brand">
+    <span class="logo-glove">🥊</span>
+    <span class="logo-text">FIGHT<span class="logo-accent">BETZ</span></span>
+  </div>
+  <nav class="topnav">
+    <a href="#events" class="navlink">Events</a>
+    <a href="#wagers" class="navlink">Wagers</a>
+    <a href="#list-event" class="navlink">List Event</a>
+    <a href="#how" class="navlink">How It Works</a>
+  </nav>
+  <div class="wallet-chip" id="walletChip" title="Your wallet">
+    <span class="wallet-icon">💰</span>
+    <span class="wallet-bal" id="walletBal">$0.00</span>
+    <button class="btn-deposit" id="openDeposit">+ Add Funds</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== HERO / MAIN EVENT ===== -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="badge-live">⚡ MAIN EVENT</div>
+      <h1 class="hero-title">IFL: RISE UP!</h1>
+      <p class="hero-sub">Island Fighters League</p>
+      <div class="hero-meta">
+        <span>📍 Mandalika Race Course, Lombok — Bali</span>
+        <span>📅 Sat, May 31 2026 · 7:00 PM WITA</span>
+      </div>
+      <p class="hero-blurb">
+        The biggest island throwdown of the year. Lock in a wager with your crew before the cage doors close.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" data-open-event="ifl-rise-up">View Card & Wager →</button>
+        <a class="btn-ghost" href="#how">How escrow works</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong id="statPool">$0</strong><span>In escrow</span></div>
+        <div><strong id="statBets">0</strong><span>Open wagers</span></div>
+        <div><strong>5%</strong><span>House hold</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EVENTS ===== -->
+  <section id="events" class="section">
+    <div class="section-head">
+      <h2>🔥 Upcoming Events</h2>
+      <p>Local & international leagues. Tap a card to see fights and bet your friends.</p>
+    </div>
+    <div class="event-grid" id="eventGrid"></div>
+  </section>
+
+  <!-- ===== OPEN WAGERS ===== -->
+  <section id="wagers" class="section">
+    <div class="section-head">
+      <h2>🤝 Open Wagers</h2>
+      <p>Peer-to-peer bets started by the community. Match one to lock it in escrow.</p>
+    </div>
+    <div class="wager-list" id="wagerList"></div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section id="how" class="section how">
+    <div class="section-head">
+      <h2>⚙️ How Fight Betz Works</h2>
+      <p>Built for friends &amp; friends-of-friends. We hold the cash so nobody ghosts the payout.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card"><span class="how-num">1</span><h3>Fund your wallet</h3><p>Top up with crypto (USDC, BTC, ETH) or a bank transfer. Funds sit in your Fight Betz wallet.</p></div>
+      <div class="how-card"><span class="how-num">2</span><h3>Start or match a wager</h3><p>Pick a fight, pick a side, set your stake. A friend matches the other side.</p></div>
+      <div class="how-card"><span class="how-num">3</span><h3>We escrow both stakes</h3><p>Both stakes are locked. Fight Betz takes a <strong>5% hold</strong> so the pot is guaranteed — no chasing mates for money.</p></div>
+      <div class="how-card"><span class="how-num">4</span><h3>Winner gets paid out</h3><p>When the result is in, the escrow auto-disburses to the winner. Withdraw to crypto or bank anytime.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== LIST YOUR EVENT ===== -->
+  <section id="list-event" class="section list-event">
+    <div class="section-head">
+      <h2>📣 Fight Promoters — List Your Event</h2>
+      <p>Running a local card? Get it in front of the whole Fight Betz community.</p>
+    </div>
+    <form class="list-form" id="listForm">
+      <div class="form-row">
+        <label>Event name<input name="name" required placeholder="e.g. Bali Knockout Nights" /></label>
+        <label>League / Org<input name="league" required placeholder="e.g. IFL" /></label>
+      </div>
+      <div class="form-row">
+        <label>Venue<input name="venue" required placeholder="Venue & city" /></label>
+        <label>Date<input name="date" type="date" required /></label>
+      </div>
+      <div class="form-row">
+        <label>Contact email<input name="email" type="email" required placeholder="you@promoter.com" /></label>
+        <label>Expected fights<input name="fights" type="number" min="1" placeholder="e.g. 8" /></label>
+      </div>
+      <label>Pitch<textarea name="pitch" rows="3" placeholder="Tell the community why they should bet on your card..."></textarea></label>
+      <button type="submit" class="btn-primary">Submit Event Request</button>
+      <p class="form-note" id="listNote"></p>
+    </form>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-brand">🥊 FIGHT<span class="logo-accent">BETZ</span></div>
+  <p>Peer-to-peer fight gambling for your crew. Bet responsibly — only stake what you can lose.</p>
+  <p class="footer-fine">Demo build. No real money is processed. 18+ where legal.</p>
+</footer>
+
+<!-- ===== EVENT MODAL ===== -->
+<div class="modal-backdrop" id="eventModal" hidden>
+  <div class="modal">
+    <button class="modal-close" data-close>✕</button>
+    <div id="eventModalBody"></div>
+  </div>
+</div>
+
+<!-- ===== WAGER MODAL ===== -->
+<div class="modal-backdrop" id="wagerModal" hidden>
+  <div class="modal">
+    <button class="modal-close" data-close>✕</button>
+    <div id="wagerModalBody"></div>
+  </div>
+</div>
+
+<!-- ===== DEPOSIT MODAL ===== -->
+<div class="modal-backdrop" id="depositModal" hidden>
+  <div class="modal">
+    <button class="modal-close" data-close>✕</button>
+    <h2 class="modal-title">💰 Add Funds</h2>
+    <p class="modal-desc">Money lands in your Fight Betz wallet, ready to escrow.</p>
+    <div class="method-tabs">
+      <button class="method-tab active" data-method="crypto">🪙 Crypto</button>
+      <button class="method-tab" data-method="bank">🏦 Bank Transfer</button>
+    </div>
+    <div class="method-pane" id="cryptoPane">
+      <label class="field-label">Asset</label>
+      <select id="cryptoAsset">
+        <option value="USDC">USDC — Tether dollar</option>
+        <option value="BTC">BTC — Bitcoin</option>
+        <option value="ETH">ETH — Ethereum</option>
+      </select>
+      <div class="deposit-addr">
+        <span class="field-label">Send to deposit address</span>
+        <code id="cryptoAddr">0xF1GHT…b372</code>
+      </div>
+    </div>
+    <div class="method-pane" id="bankPane" hidden>
+      <p class="bank-info">Bank transfer to <strong>Fight Betz Holdings</strong><br />BSB <strong>062-000</strong> · ACC <strong>1394 7720</strong><br />Reference your username.</p>
+    </div>
+    <label class="field-label">Amount (USD)</label>
+    <input type="number" id="depositAmount" min="1" placeholder="100.00" />
+    <button class="btn-primary full" id="confirmDeposit">Confirm Deposit</button>
+    <p class="form-note" id="depositNote"></p>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>

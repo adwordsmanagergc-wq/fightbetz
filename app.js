@@ -15,6 +15,7 @@ const EVENTS = [
     venue: "Mandalika Race Course, Lombok — Bali",
     date: "Sat 31 May 2026 · 7:00 PM WITA",
     featured: true,
+    poster: "rise-up-event.png",
     fights: [
       { id: "f1", a: "Komang \"Bull\" Surya", b: "Rizky Pratama", weight: "Lightweight Title", oddsA: 1.8, oddsB: 2.1 },
       { id: "f2", a: "Wayan Adi", b: "Joao \"Tsunami\" Silva", weight: "Welterweight", oddsA: 2.4, oddsB: 1.6 },
@@ -220,6 +221,7 @@ function openEventModal(eventId) {
   builder = { eventId, fightId: null, side: null, odds: null };
   const body = $("#eventModalBody");
   body.innerHTML = `
+    ${ev.poster ? `<div class="em-poster"><img src="${ev.poster}" alt="${escapeAttr(ev.name)} poster" /></div>` : ""}
     <div class="em-org">${ev.org}</div>
     <div class="em-name">${ev.name}</div>
     <div class="em-meta">📍 ${ev.venue} &nbsp; · &nbsp; 📅 ${ev.date}</div>
